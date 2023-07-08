@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios";
 import * as yup from 'yup';
-import schema from './formSchema';
+import formSchema from './formSchema';
 
 export default function Form(props) {
     const initialFormValues = {
@@ -16,7 +16,8 @@ export default function Form(props) {
     }
     const initialFormErrors = {
         name: '',
-        // size: '',
+        size: '',
+        specialText: ''
     }
     const initialOrder = [];
 
@@ -27,10 +28,12 @@ export default function Form(props) {
 
 
     const validate = (name, value) => {
-        yup.reach(schema, name)
-            .validate(value)
-            .then(() => setFormErrors({ ...formErrors, [name]: '' })
-                .catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0] })))
+        yup.reach(formSchema, name).validate(value)
+            .then(() => {
+                setFormErrors({ ...formErrors, [name]: "" })
+            }).catch(err => {
+                setFormErrors({ ...formErrors, [name]: err.errors[0] })
+            })
     }
     const change = (name, value) => {
         validate(name, value);
